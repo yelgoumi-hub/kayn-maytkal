@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFD400" />
+  <meta name="description" content="Kayn Maytkal — trouve rapidement où manger autour de toi." />
+  <title>Kayn Maytkal</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="splash" class="splash" aria-hidden="false">
+    <div class="brand-mark">K</div>
+    <div class="brand-name">Kayn Maytkal</div>
+    <div class="brand-sub">فين ناكل؟ الجواب قريب منك.</div>
+  </div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Kayn Maytkal</p>
+        <h1>شنو كاين ما يتكال؟</h1>
+      </div>
+      <button id="locateBtn" class="icon-btn" aria-label="Utiliser ma localisation" title="Ma position">⌖</button>
+    </header>
+
+    <section class="search-card">
+      <label for="searchInput" class="sr-only">Rechercher</label>
+      <div class="search-row">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="Burger, tacos, café..." autocomplete="off" />
+        <button id="clearSearch" class="text-btn" aria-label="Effacer">×</button>
+      </div>
+      <div class="chips" id="categoryChips">
+        <button class="chip active" data-category="all">الكل</button>
+        <button class="chip" data-category="fast_food">Fast food</button>
+        <button class="chip" data-category="restaurant">Restaurant</button>
+        <button class="chip" data-category="cafe">Café</button>
+        <button class="chip" data-category="bakery">Boulangerie</button>
+      </div>
+      <div class="filters-row">
+        <label>Distance
+          <select id="radiusSelect">
+            <option value="1000">1 km</option>
+            <option value="3000" selected>3 km</option>
+            <option value="5000">5 km</option>
+            <option value="10000">10 km</option>
+          </select>
+        </label>
+        <label>Tri
+          <select id="sortSelect">
+            <option value="distance" selected>Plus proche</option>
+            <option value="name">Nom</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="status-wrap">
+      <p id="statusText" class="status">Clique sur ⌖ pour trouver les restos autour de toi.</p>
+    </section>
+
+    <section id="resultsView" class="view active-view">
+      <div class="section-heading">
+        <h2>قريب ليك</h2>
+        <span id="resultCount">0 résultats</span>
+      </div>
+      <div id="results" class="results-grid"></div>
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🍽️</div>
+        <h3>مازال ما قلبناش</h3>
+        <p>فعّل localisation ديالك، وغادي نجيبو ليك بلايص قريبة فين تاكل.</p>
+        <button id="emptyLocateBtn" class="primary-btn">لقا ليا أقرب بلاصة</button>
+      </div>
+    </section>
+
+    <section id="mapView" class="view">
+      <div id="map"></div>
+    </section>
+
+    <section id="favoritesView" class="view">
+      <div class="section-heading">
+        <h2>المفضلة</h2>
+        <span id="favoriteCount">0</span>
+      </div>
+      <div id="favorites" class="results-grid"></div>
+      <div id="favoritesEmpty" class="empty-state">
+        <div class="empty-icon">♡</div>
+        <h3>ما عندك حتى مفضلة</h3>
+        <p>ضغط على القلب فشي بلاصة باش تبقى محفوظة هنا.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navigation principale">
+    <button class="nav-item active" data-view="resultsView"><span>⌂</span><small>Accueil</small></button>
+    <button class="nav-item" data-view="mapView"><span>⌖</span><small>Carte</small></button>
+    <button class="nav-item" data-view="favoritesView"><span>♡</span><small>Favoris</small></button>
+  </nav>
+
+  <template id="placeCardTemplate">
+    <article class="place-card">
+      <div class="place-main">
+        <div class="place-icon">🍴</div>
+        <div class="place-info">
+          <div class="place-title-row">
+            <h3 class="place-name"></h3>
+            <button class="favorite-btn" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <p class="place-meta"></p>
+          <p class="place-address"></p>
+          <div class="place-actions">
+            <button class="route-btn">Itinéraire</button>
+            <button class="map-btn">Voir carte</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

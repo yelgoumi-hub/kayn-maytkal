@@ -1,0 +1,12 @@
+{
+  "name": "Kayn Maytkal",
+  "short_name": "Maytkal",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFD400",
+  "theme_color": "#FFD400",
+  "description": "Trouve où manger autour de toi.",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
