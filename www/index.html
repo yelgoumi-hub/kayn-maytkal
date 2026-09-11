@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFD400" />
+  <meta name="description" content="Kayn Maytkal — trouve rapidement où manger autour de toi." />
+  <meta name="robots" content="index,follow" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kayn Maytkal" />
+  <title>Kayn Maytkal — فين ناكل؟</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://overpass-api.de" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="splash" class="splash" aria-hidden="false">
+    <div class="brand-mark">K</div>
+    <div class="brand-name">Kayn Maytkal</div>
+    <div class="brand-sub">فين ناكل؟ الجواب قريب منك.</div>
+  </div>
+
+  <div id="offlineBanner" class="offline-banner" role="status" hidden>
+    ما كاينش الإنترنت دابا. المفضلة ديالك باقية خدامة.
+  </div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Kayn Maytkal</p>
+        <h1>شنو كاين ما يتكال؟</h1>
+      </div>
+      <div class="top-actions">
+        <button id="installBtn" class="icon-btn secondary" aria-label="Installer l'application" title="Installer" hidden>⇩</button>
+        <button id="locateBtn" class="icon-btn" aria-label="Utiliser ma localisation" title="Ma position">⌖</button>
+      </div>
+    </header>
+
+    <section class="search-card" aria-label="Recherche et filtres">
+      <label for="searchInput" class="sr-only">Rechercher</label>
+      <div class="search-row">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="Burger, tacos, café..." autocomplete="off" />
+        <button id="clearSearch" class="text-btn" aria-label="Effacer">×</button>
+      </div>
+      <div class="chips" id="categoryChips" role="group" aria-label="Catégories">
+        <button class="chip active" data-category="all">الكل</button>
+        <button class="chip" data-category="fast_food">Fast food</button>
+        <button class="chip" data-category="restaurant">Restaurant</button>
+        <button class="chip" data-category="cafe">Café</button>
+        <button class="chip" data-category="bakery">Boulangerie</button>
+      </div>
+      <div class="filters-row">
+        <label>Distance
+          <select id="radiusSelect" aria-label="Distance maximale">
+            <option value="1000">1 km</option>
+            <option value="3000" selected>3 km</option>
+            <option value="5000">5 km</option>
+            <option value="10000">10 km</option>
+          </select>
+        </label>
+        <label>Tri
+          <select id="sortSelect" aria-label="Trier les résultats">
+            <option value="distance" selected>Plus proche</option>
+            <option value="name">Nom</option>
+          </select>
+        </label>
+      </div>
+      <div class="quick-actions">
+        <button id="surpriseBtn" class="ghost-btn">🎲 اختار ليا</button>
+        <button id="refreshBtn" class="ghost-btn">↻ تحديث</button>
+      </div>
+    </section>
+
+    <section class="status-wrap" aria-live="polite">
+      <p id="statusText" class="status">ضغط على ⌖ باش نلقاو ليك فين تاكل قريب منك.</p>
+    </section>
+
+    <section id="resultsView" class="view active-view">
+      <div class="section-heading">
+        <h2>قريب ليك</h2>
+        <span id="resultCount">0 résultats</span>
+      </div>
+      <div id="results" class="results-grid"></div>
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🍽️</div>
+        <h3>جاهز نقلبو ليك</h3>
+        <p>سمح بالـ localisation ديالك، وغادي نجيبو ليك المطاعم والقهاوي والمخابز القريبة.</p>
+        <button id="emptyLocateBtn" class="primary-btn">لقا ليا أقرب بلاصة</button>
+      </div>
+    </section>
+
+    <section id="mapView" class="view" aria-label="Carte">
+      <div id="map"></div>
+    </section>
+
+    <section id="favoritesView" class="view">
+      <div class="section-heading">
+        <h2>المفضلة</h2>
+        <span id="favoriteCount">0</span>
+      </div>
+      <div id="favorites" class="results-grid"></div>
+      <div id="favoritesEmpty" class="empty-state">
+        <div class="empty-icon">♡</div>
+        <h3>ما عندك حتى مفضلة</h3>
+        <p>ضغط على القلب فشي بلاصة باش تبقى محفوظة هنا.</p>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <button id="privacyBtn" class="footer-link">Confidentialité</button>
+      <span>•</span>
+      <a class="footer-link" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Données © OpenStreetMap</a>
+    </footer>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navigation principale">
+    <button class="nav-item active" data-view="resultsView"><span>⌂</span><small>Accueil</small></button>
+    <button class="nav-item" data-view="mapView"><span>⌖</span><small>Carte</small></button>
+    <button class="nav-item" data-view="favoritesView"><span>♡</span><small>Favoris</small></button>
+  </nav>
+
+  <dialog id="privacyDialog" class="modal">
+    <div class="modal-head">
+      <h2>Confidentialité</h2>
+      <button id="privacyClose" class="text-btn" aria-label="Fermer">×</button>
+    </div>
+    <p>Kayn Maytkal utilise ta position uniquement quand tu l'autorises pour chercher des lieux proches. Les coordonnées de la recherche sont envoyées au service public Overpass/OpenStreetMap afin de récupérer les résultats.</p>
+    <p>La position n'est pas enregistrée par cette application. Les favoris sont stockés localement sur ton appareil.</p>
+    <a href="privacy.html">Lire la politique complète</a>
+  </dialog>
+
+  <template id="placeCardTemplate">
+    <article class="place-card">
+      <div class="place-main">
+        <div class="place-icon">🍴</div>
+        <div class="place-info">
+          <div class="place-title-row">
+            <h3 class="place-name"></h3>
+            <button class="favorite-btn" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <p class="place-meta"></p>
+          <p class="place-address"></p>
+          <div class="contact-row" hidden>
+            <a class="phone-link" href="#" rel="nofollow">Appeler</a>
+            <a class="website-link" href="#" target="_blank" rel="noopener nofollow">Site</a>
+          </div>
+          <div class="place-actions">
+            <button class="route-btn">Itinéraire</button>
+            <button class="map-btn">Voir carte</button>
+            <button class="share-btn">Partager</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

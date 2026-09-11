@@ -1,0 +1,19 @@
+KAYN MAYTKAL — GITHUB READY
+
+هاد النسخة فيها المشروع كامل:
+- Android project: android-native/
+- GitHub Actions workflow: .github/workflows/android-build.yml
+- Web/PWA: www/
+- باقي ملفات الإطلاق
+
+مهم على Mac:
+المجلد .github مخفي حيث الاسم كيبدا بنقطة.
+باش تشوفو فـFinder استعمل:
+Command + Shift + .
+
+إذا رفعت الملفات لـGitHub، خاص .github يكون فـROOT ديال repository،
+ماشي داخل dossier آخر.
+
+زدنا نسخة ظاهرة من workflow فـ:
+GITHUB-WORKFLOW-BACKUP/android-build.yml
+غير للاحتياط/التأكد.
